@@ -2,6 +2,7 @@ package com.fivestars.rocketnotes.Maintenance.interfaces.rest;
 
 
 import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteFacilitieByIdCommand;
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.UpdateFacilitieCommand;
 import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetAllEquipmentsQuery;
 import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetAllFacilitiesQuery;
 import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetFacilitieByIdQuery;
@@ -10,10 +11,13 @@ import com.fivestars.rocketnotes.Maintenance.domain.services.FacilitieQueryServi
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.CreateFacilitieResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.EquipmentResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.FacilitieResource;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.UpdateFacilitieResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.CreateFacilitieCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.EquipmentResourceFromEntityAssembler;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.FacilitieResourceFromEntityAssembler;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.UpdateFacilitieCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.catalina.webresources.CachedResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +71,15 @@ public class FacilitieController {
         var command = new DeleteFacilitieByIdCommand(id);
         facilitieCommandService.handle(command);
         return ResponseEntity.ok("Facilitie deleted successfully");
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<FacilitieResource> updateFacilitie(@PathVariable Long id, @RequestBody UpdateFacilitieResource resource){
+        var updateFacilitieCommand = UpdateFacilitieCommandFromResourceAssembler.toCommandFromResource(id, resource);
+        var facilitie = facilitieCommandService.handle(updateFacilitieCommand);
+        if(facilitie.isEmpty()) return ResponseEntity.badRequest().build();
+        var facilitieResource = FacilitieResourceFromEntityAssembler.toResourceFromEntity(facilitie.get());
+        return ResponseEntity.ok(facilitieResource);
     }
 
 }

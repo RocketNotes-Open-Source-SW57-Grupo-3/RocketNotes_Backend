@@ -1,11 +1,16 @@
 package com.fivestars.rocketnotes.Maintenance.application.internal.commandservices;
 
+import com.fivestars.rocketnotes.Maintenance.domain.model.agreggates.Equipment;
 import com.fivestars.rocketnotes.Maintenance.domain.model.agreggates.Facilitie;
 import com.fivestars.rocketnotes.Maintenance.domain.model.commands.CreateFacilitieCommand;
 import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteFacilitieByIdCommand;
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.UpdateEquipmentCommand;
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.UpdateFacilitieCommand;
 import com.fivestars.rocketnotes.Maintenance.domain.services.FacilitieCommandService;
 import com.fivestars.rocketnotes.Maintenance.infraestructure.persistence.repositories.FacilitieRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class FacilitieCommandServiceImpl implements FacilitieCommandService {
@@ -31,4 +36,26 @@ public class FacilitieCommandServiceImpl implements FacilitieCommandService {
             throw new IllegalArgumentException("Error while deleting facilitie: " + e.getMessage());
         }
     }
+    
+    @Override
+    public Optional<Facilitie> handle(UpdateFacilitieCommand command) {
+        Optional<Facilitie> result = facilitieRepository.findById(command.id());
+    
+        if (result.isEmpty()) {
+            throw new IllegalArgumentException("Facilitie does not exist");
+        }
+    
+        Facilitie facilitieToUpdate = result.get();
+    
+        // Actualizar el estado del facilitie
+        facilitieToUpdate.setStatus(command.status());
+    
+        try {
+            Facilitie updatedFacilitie = facilitieRepository.save(facilitieToUpdate);
+            return Optional.of(updatedFacilitie);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while updating facilitie: " + e.getMessage());
+        }
 }
+}
+
