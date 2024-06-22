@@ -37,34 +37,24 @@ public class EquipmentCommandServiceImpl implements EquipmentCommandService {
         }
     }
 
-@Override
-public Optional<Equipment> handle(UpdateEquipmentCommand command) {
-    Optional<Equipment> result = equipmentRepository.findById(command.id());
-
-    if (result.isEmpty()) {
-        throw new IllegalArgumentException("Equipment does not exist");
+    @Override
+    public Optional<Equipment> handle(UpdateEquipmentCommand command) {
+        Optional<Equipment> result = equipmentRepository.findById(command.id());
+    
+        if (result.isEmpty()) {
+            throw new IllegalArgumentException("Equipment does not exist");
+        }
+    
+        Equipment equipmentToUpdate = result.get();
+    
+        // Actualizar el estado del equipo
+        equipmentToUpdate.setStatus(command.status());
+    
+        try {
+            Equipment updatedEquipment = equipmentRepository.save(equipmentToUpdate);
+            return Optional.of(updatedEquipment);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while updating equipment: " + e.getMessage());
+        }
     }
-
-    Equipment equipmentToUpdate = result.get();
-
-    // Verificar si existe otro equipo con el mismo nombre
-    Optional<Equipment> equipmentWithSameName = equipmentRepository.findByName(command.name());
-    if (equipmentWithSameName.isPresent() && !equipmentWithSameName.get().getId().equals(command.id())) {
-        throw new IllegalArgumentException("Equipment with same name already exists");
-    }
-
-    // Actualizar la información del equipo
-    equipmentToUpdate.setName(command.name());
-    equipmentToUpdate.setQuantity(command.quantity());
-    equipmentToUpdate.setBudget(command.budget());
-    equipmentToUpdate.setCreation(command.creation());
-    equipmentToUpdate.setPeriod(command.period());
-
-    try {
-        Equipment updatedEquipment = equipmentRepository.save(equipmentToUpdate);
-        return Optional.of(updatedEquipment);
-    } catch (Exception e) {
-        throw new IllegalArgumentException("Error while updating equipment: " + e.getMessage());
-    }
-}
 }

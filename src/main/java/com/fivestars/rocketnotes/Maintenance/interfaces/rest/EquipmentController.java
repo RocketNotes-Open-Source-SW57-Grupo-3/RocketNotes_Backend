@@ -11,6 +11,7 @@ import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.UpdateEqu
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.CreateEquipmentCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.EquipmentResourceFromEntityAssembler;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.UpdateEquipmentCommandFromResourceAssembler;
+import com.fivestars.rocketnotes.iam.interfaces.rest.resources.RoleResource;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

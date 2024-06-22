@@ -4,9 +4,11 @@ package com.fivestars.rocketnotes.Maintenance.domain.model.agreggates;
 import com.fivestars.rocketnotes.Maintenance.domain.model.valueobjects.EquipmentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Setter;
 
 @Entity
 @Data
+@Setter
 public class Equipment {
 
     @Id
