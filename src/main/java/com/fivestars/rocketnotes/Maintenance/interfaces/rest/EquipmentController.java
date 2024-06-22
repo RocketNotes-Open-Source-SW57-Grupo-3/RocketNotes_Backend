@@ -7,8 +7,10 @@ import com.fivestars.rocketnotes.Maintenance.domain.services.EquipmentCommandSer
 import com.fivestars.rocketnotes.Maintenance.domain.services.EquipmentQueryService;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.CreateEquipmentResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.EquipmentResource;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.UpdateEquipmentResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.CreateEquipmentCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.EquipmentResourceFromEntityAssembler;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.UpdateEquipmentCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,6 +66,15 @@ public class EquipmentController {
         var deleteEquipmentByIdCommand = new DeleteEquipmentByIdCommand(id);
         equipmentCommandService.handle(deleteEquipmentByIdCommand);
         return ResponseEntity.ok("Equipment deleted successfully");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EquipmentResource> updateEquipment(@PathVariable Long id, @RequestBody UpdateEquipmentResource resource){
+        var updateEquipmentCommand = UpdateEquipmentCommandFromResourceAssembler.toCommandFromResource(id, resource);
+        var equipment = equipmentCommandService.handle(updateEquipmentCommand);
+        if(equipment.isEmpty()) return ResponseEntity.notFound().build();
+        var equipmentResource = EquipmentResourceFromEntityAssembler.toResourceFromEntity(equipment.get());
+        return ResponseEntity.ok(equipmentResource);
     }
 
 }
