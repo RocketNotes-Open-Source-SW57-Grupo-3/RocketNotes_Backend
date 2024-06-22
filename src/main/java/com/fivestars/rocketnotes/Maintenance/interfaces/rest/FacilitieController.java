@@ -1,18 +1,25 @@
 package com.fivestars.rocketnotes.Maintenance.interfaces.rest;
 
 
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteFacilitieByIdCommand;
+import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetAllEquipmentsQuery;
+import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetAllFacilitiesQuery;
 import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetFacilitieByIdQuery;
 import com.fivestars.rocketnotes.Maintenance.domain.services.FacilitieCommandService;
 import com.fivestars.rocketnotes.Maintenance.domain.services.FacilitieQueryService;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.CreateFacilitieResource;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.EquipmentResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.FacilitieResource;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.CreateFacilitieCommandFromResourceAssembler;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.EquipmentResourceFromEntityAssembler;
 import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.FacilitieResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/v1/factilites", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +52,21 @@ public class FacilitieController {
         if(facilitie.isEmpty()) return ResponseEntity.badRequest().build();
         var facilitieResource = FacilitieResourceFromEntityAssembler.toResourceFromEntity(facilitie.get());
         return ResponseEntity.ok(facilitieResource);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FacilitieResource>> getAllFacilities(){
+        var getAllFacilitiesQuery = new GetAllFacilitiesQuery();
+        var facilities = facilitieQueryService.handle(getAllFacilitiesQuery);
+        var facilitiesResources = facilities.stream().map(FacilitieResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(facilitiesResources);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteFacilitieById(@PathVariable Long id){
+        var command = new DeleteFacilitieByIdCommand(id);
+        facilitieCommandService.handle(command);
+        return ResponseEntity.ok("Facilitie deleted successfully");
     }
 
 }

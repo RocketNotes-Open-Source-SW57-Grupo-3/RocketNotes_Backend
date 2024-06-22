@@ -1,5 +1,6 @@
 package com.fivestars.rocketnotes.Maintenance.interfaces.rest;
 
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteEquipmentByIdCommand;
 import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetAllEquipmentsQuery;
 import com.fivestars.rocketnotes.Maintenance.domain.model.queries.GetEquipmentByIdQuery;
 import com.fivestars.rocketnotes.Maintenance.domain.services.EquipmentCommandService;
@@ -56,6 +57,13 @@ public class EquipmentController {
         if(equipment.isEmpty()) return ResponseEntity.badRequest().build();
         var equipmentResource = EquipmentResourceFromEntityAssembler.toResourceFromEntity(equipment.get());
         return ResponseEntity.ok(equipmentResource);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEquipmentById(@PathVariable Long id){
+        var deleteEquipmentByIdCommand = new DeleteEquipmentByIdCommand(id);
+        equipmentCommandService.handle(deleteEquipmentByIdCommand);
+        return ResponseEntity.ok("Equipment deleted successfully");
     }
 
 }

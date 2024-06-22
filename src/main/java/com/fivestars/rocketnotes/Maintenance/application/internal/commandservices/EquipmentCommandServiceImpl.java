@@ -2,6 +2,7 @@ package com.fivestars.rocketnotes.Maintenance.application.internal.commandservic
 
 import com.fivestars.rocketnotes.Maintenance.domain.model.agreggates.Equipment;
 import com.fivestars.rocketnotes.Maintenance.domain.model.commands.CreateEquipmentCommand;
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteEquipmentByIdCommand;
 import com.fivestars.rocketnotes.Maintenance.domain.services.EquipmentCommandService;
 import com.fivestars.rocketnotes.Maintenance.infraestructure.persistence.repositories.EquipmentRepository;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,16 @@ public class EquipmentCommandServiceImpl implements EquipmentCommandService {
         Equipment equipment = new Equipment(command.name(),command.quantity(),command.budget(), command.creation(), command.period());
         equipmentRepository.save(equipment);
         return equipment.getId();
+    }
+    @Override
+    public void handle(DeleteEquipmentByIdCommand command) {
+        if (!equipmentRepository.existsById(command.id())) {
+            throw new IllegalArgumentException("Equipment does not exist");
+        }
+        try {
+            equipmentRepository.deleteById(command.id());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting equipment: " + e.getMessage());
+        }
     }
 }
