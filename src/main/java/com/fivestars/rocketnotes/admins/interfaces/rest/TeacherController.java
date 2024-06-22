@@ -2,10 +2,13 @@ package com.fivestars.rocketnotes.admins.interfaces.rest;
 
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Teacher;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateTeacherCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteCourseCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteTeacherCommand;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherCommandService;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateTeacherResource;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.TeacherResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
@@ -61,4 +64,11 @@ public class TeacherController {
                 .email(teacher.getEmail())
                 .build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTeacher(@PathVariable Long adminId) {
+        teacherCommandService.handle(new DeleteTeacherCommand(adminId));
+        return ResponseEntity.ok().build();
+    }
+
 }

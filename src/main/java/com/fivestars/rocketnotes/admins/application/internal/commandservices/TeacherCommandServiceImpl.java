@@ -2,6 +2,7 @@ package com.fivestars.rocketnotes.admins.application.internal.commandservices;
 
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Teacher;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateTeacherCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteTeacherCommand;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherCommandService;
 import com.fivestars.rocketnotes.admins.infrastructure.persistence.jpa.repositories.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,11 @@ public class TeacherCommandServiceImpl implements TeacherCommandService {
         );
         teacherRepository.save(teacher);
         return teacher.getId();
+    }
+
+    @Override
+    public void handle(DeleteTeacherCommand command) {
+        Teacher teacher = teacherRepository.findById(command.teacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
+        teacherRepository.delete(teacher);
     }
 }
