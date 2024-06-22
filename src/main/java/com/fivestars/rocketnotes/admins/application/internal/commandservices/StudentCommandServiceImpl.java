@@ -1,7 +1,10 @@
 package com.fivestars.rocketnotes.admins.application.internal.commandservices;
 
+import com.fivestars.rocketnotes.admins.domain.model.aggregates.Admin;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Student;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateStudentCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteAdminCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.services.StudentCommandService;
 import com.fivestars.rocketnotes.admins.infrastructure.persistence.jpa.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -23,4 +26,12 @@ public class StudentCommandServiceImpl implements StudentCommandService {
         studentRepository.save(student);
         return student.getId();
     }
+
+
+    @Override
+    public void handle(DeleteStudentCommand command) {
+        Student student = studentRepository.findById(command.studentId()).orElseThrow(() -> new RuntimeException("Student not found"));
+        studentRepository.delete(student);
+    }
+
 }
