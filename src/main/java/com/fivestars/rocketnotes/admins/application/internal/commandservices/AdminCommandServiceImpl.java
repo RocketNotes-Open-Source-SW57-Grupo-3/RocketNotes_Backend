@@ -32,14 +32,13 @@ public class AdminCommandServiceImpl implements AdminCommandService {
 
     @Override
     public void handle(DeleteAdminCommand command){
-        if (!adminRepository.existsById(command.adminId())) {
+        if (!adminRepository.existsById(command.id())) {
             throw new IllegalArgumentException("Admin does not exist");
         }
         try {
-            adminRepository.deleteById(command.adminId());
+            adminRepository.deleteById(command.id());
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while deleting admin: " + e.getMessage());
         }
     }
-
 }

@@ -31,18 +31,18 @@ public class TeacherCommandServiceImpl implements TeacherCommandService {
 
     @Override
     public void handle(UpdateTeacherCommand command) {
-        Teacher teacher = teacherRepository.findById(command.teacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
+        Teacher teacher = teacherRepository.findById(command.id()).orElseThrow(() -> new RuntimeException("Teacher not found"));
         teacher.updateDetails(command.firstName(), command.paternalLastName(), command.maternalLastName(), command.dni(), command.phone(), command.email());
         teacherRepository.save(teacher);
     }
 
     @Override
     public void handle(DeleteTeacherCommand command){
-        if (!teacherRepository.existsById(command.teacherId())) {
+        if (!teacherRepository.existsById(command.id())) {
             throw new IllegalArgumentException("Teacher does not exist");
         }
         try {
-            teacherRepository.deleteById(command.teacherId());
+            teacherRepository.deleteById(command.id());
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while deleting teacher: " + e.getMessage());
         }

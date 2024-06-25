@@ -72,8 +72,8 @@ public class TeacherController {
         return ResponseEntity.ok("Teacher deleted successfully");
     }
 
-    @PutMapping("/{teacherId}")
-    public ResponseEntity<Void> updateTeacher(@PathVariable Long teacherId, @RequestBody UpdateTeacherCommand command) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateTeacher(@PathVariable Long id, @RequestBody UpdateTeacherCommand command) {
         teacherCommandService.handle(command);
         return ResponseEntity.ok().build();
     }

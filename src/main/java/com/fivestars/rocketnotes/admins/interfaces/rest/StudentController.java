@@ -1,9 +1,5 @@
 package com.fivestars.rocketnotes.admins.interfaces.rest;
 
-import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.EquipmentResource;
-import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.UpdateEquipmentResource;
-import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.EquipmentResourceFromEntityAssembler;
-import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.UpdateEquipmentCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Student;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteStudentCommand;
@@ -71,8 +67,8 @@ public class StudentController {
     }
 
 
-    @PutMapping("/{studentId}")
-    public ResponseEntity<Void> updateStudent(@PathVariable Long studentId, @RequestBody UpdateStudentCommand command) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentCommand command) {
         studentCommandService.handle(command);
         return ResponseEntity.ok().build();
     }

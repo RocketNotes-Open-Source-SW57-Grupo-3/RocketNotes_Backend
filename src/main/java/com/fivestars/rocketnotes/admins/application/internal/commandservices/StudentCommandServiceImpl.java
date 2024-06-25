@@ -30,18 +30,18 @@ public class StudentCommandServiceImpl implements StudentCommandService {
 
     @Override
     public void handle(UpdateStudentCommand command) {
-        Student student = studentRepository.findById(command.studentId()).orElseThrow(() -> new RuntimeException("Student not found"));
+        Student student = studentRepository.findById(command.id()).orElseThrow(() -> new RuntimeException("Student not found"));
         student.updateDetails(command.firstName(), command.paternalLastName(), command.maternalLastName(), command.dni());
         studentRepository.save(student);
     }
 
     @Override
     public void handle(DeleteStudentCommand command){
-        if (!studentRepository.existsById(command.studentId())) {
+        if (!studentRepository.existsById(command.id())) {
             throw new IllegalArgumentException("Student does not exist");
         }
         try {
-            studentRepository.deleteById(command.studentId());
+            studentRepository.deleteById(command.id());
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while deleting student: " + e.getMessage());
         }
