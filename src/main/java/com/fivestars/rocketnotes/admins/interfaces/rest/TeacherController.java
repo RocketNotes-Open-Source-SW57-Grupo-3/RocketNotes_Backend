@@ -8,6 +8,7 @@ import com.fivestars.rocketnotes.admins.domain.services.TeacherCommandService;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateTeacherResource;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.TeacherResource;
+import com.fivestars.rocketnotes.admins.interfaces.rest.resources.UpdateTeacherResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +74,16 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTeacher(@PathVariable Long id, @RequestBody UpdateTeacherCommand command) {
+    public ResponseEntity<Void> updateTeacher(@PathVariable Long id, @RequestBody UpdateTeacherResource resource) {
+        UpdateTeacherCommand command = new UpdateTeacherCommand(
+                id,
+                resource.getFirstName(),
+                resource.getPaternalLastName(),
+                resource.getMaternalLastName(),
+                resource.getDni(),
+                resource.getPhone(),
+                resource.getEmail()
+        );
         teacherCommandService.handle(command);
         return ResponseEntity.ok().build();
     }
