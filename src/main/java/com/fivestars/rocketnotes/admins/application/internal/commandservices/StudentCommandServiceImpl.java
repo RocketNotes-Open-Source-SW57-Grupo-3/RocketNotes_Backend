@@ -1,9 +1,7 @@
 package com.fivestars.rocketnotes.admins.application.internal.commandservices;
 
-import com.fivestars.rocketnotes.admins.domain.model.aggregates.Admin;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Student;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateStudentCommand;
-import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteAdminCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.UpdateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.services.StudentCommandService;
