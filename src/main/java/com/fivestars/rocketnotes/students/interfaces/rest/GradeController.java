@@ -35,7 +35,7 @@ public class GradeController {
 
 
     @GetMapping("/{courseId}/{studentId}")
-    public ResponseEntity<List<Grade>> getAllGradesForStudent(@RequestParam StudentId studentId, CourseId courseId) {
-        return ResponseEntity.ok(queryService.handle(new GetAllGradesForStudentQuery(studentId,courseId)));
+    public ResponseEntity<List<Grade>> getAllGradesForStudent(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) {
+        return ResponseEntity.ok(queryService.handle(new GetAllGradesForStudentQuery(new StudentId(studentId), new CourseId(courseId))));
     }
 }
