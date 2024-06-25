@@ -2,8 +2,8 @@ package com.fivestars.rocketnotes.admins.interfaces.rest;
 
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Teacher;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateTeacherCommand;
-import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteCourseCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteTeacherCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.UpdateTeacherCommand;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherCommandService;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateTeacherResource;
@@ -66,9 +66,15 @@ public class TeacherController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTeacher(@PathVariable Long adminId) {
-        teacherCommandService.handle(new DeleteTeacherCommand(adminId));
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteTeacherById(@PathVariable Long id){
+        var deleteTeacherCommand = new DeleteTeacherCommand(id);
+        teacherCommandService.handle(deleteTeacherCommand);
+        return ResponseEntity.ok("Teacher deleted successfully");
     }
 
+    @PutMapping("/{teacherId}")
+    public ResponseEntity<Void> updateTeacher(@PathVariable Long teacherId, @RequestBody UpdateTeacherCommand command) {
+        teacherCommandService.handle(command);
+        return ResponseEntity.ok().build();
+    }
 }

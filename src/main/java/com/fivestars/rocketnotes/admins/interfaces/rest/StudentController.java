@@ -1,8 +1,13 @@
 package com.fivestars.rocketnotes.admins.interfaces.rest;
 
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.EquipmentResource;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.resources.UpdateEquipmentResource;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.EquipmentResourceFromEntityAssembler;
+import com.fivestars.rocketnotes.Maintenance.interfaces.rest.transform.UpdateEquipmentCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Student;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteStudentCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.UpdateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.services.StudentCommandService;
 import com.fivestars.rocketnotes.admins.domain.services.StudentQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateStudentResource;
@@ -59,8 +64,16 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long studentId) {
-        studentCommandService.handle(new DeleteStudentCommand(studentId));
+    public ResponseEntity<?> deleteStudentById(@PathVariable Long id){
+        var deleteStudentCommand = new DeleteStudentCommand(id);
+        studentCommandService.handle(deleteStudentCommand);
+        return ResponseEntity.ok("Student deleted successfully");
+    }
+
+
+    @PutMapping("/{studentId}")
+    public ResponseEntity<Void> updateStudent(@PathVariable Long studentId, @RequestBody UpdateStudentCommand command) {
+        studentCommandService.handle(command);
         return ResponseEntity.ok().build();
     }
 

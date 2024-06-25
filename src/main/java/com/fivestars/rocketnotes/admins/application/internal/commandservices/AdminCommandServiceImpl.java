@@ -1,5 +1,6 @@
 package com.fivestars.rocketnotes.admins.application.internal.commandservices;
 
+import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteFacilitieByIdCommand;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Admin;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Classroom;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Course;
@@ -30,8 +31,15 @@ public class AdminCommandServiceImpl implements AdminCommandService {
 
 
     @Override
-    public void handle(DeleteAdminCommand command) {
-        Admin admin = adminRepository.findById(command.adminId()).orElseThrow(() -> new RuntimeException("Admin not found"));
-        adminRepository.delete(admin);
+    public void handle(DeleteAdminCommand command){
+        if (!adminRepository.existsById(command.adminId())) {
+            throw new IllegalArgumentException("Admin does not exist");
+        }
+        try {
+            adminRepository.deleteById(command.adminId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting admin: " + e.getMessage());
+        }
     }
+
 }

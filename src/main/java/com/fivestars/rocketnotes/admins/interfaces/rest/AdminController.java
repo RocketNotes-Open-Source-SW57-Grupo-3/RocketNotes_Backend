@@ -56,11 +56,11 @@ public class AdminController {
                 .build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void>  deleteAdmin(@PathVariable Long adminId) {
-        adminCommandService.handle(new DeleteAdminCommand(adminId));
-        return ResponseEntity.ok().build();
+   @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAdminById(@PathVariable Long id){
+        var deleteAdminCommand = new DeleteAdminCommand(id);
+        adminCommandService.handle(deleteAdminCommand);
+        return ResponseEntity.ok("Admin deleted successfully");
     }
-
 
 }
