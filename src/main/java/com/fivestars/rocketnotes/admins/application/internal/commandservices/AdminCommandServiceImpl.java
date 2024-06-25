@@ -1,12 +1,8 @@
 package com.fivestars.rocketnotes.admins.application.internal.commandservices;
 
-import com.fivestars.rocketnotes.Maintenance.domain.model.commands.DeleteFacilitieByIdCommand;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Admin;
-import com.fivestars.rocketnotes.admins.domain.model.aggregates.Classroom;
-import com.fivestars.rocketnotes.admins.domain.model.aggregates.Course;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateAdminCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteAdminCommand;
-import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteCourseCommand;
 import com.fivestars.rocketnotes.admins.domain.services.AdminCommandService;
 import com.fivestars.rocketnotes.admins.infrastructure.persistence.jpa.repositories.AdminRepository;
 import lombok.RequiredArgsConstructor;
