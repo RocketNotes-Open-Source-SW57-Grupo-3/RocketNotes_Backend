@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/factilites", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "api/v1/facilities", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name="Facilities", description = "Facilitie Management Endpoint")
 public class FacilitieController {
     private final FacilitieQueryService facilitieQueryService;
