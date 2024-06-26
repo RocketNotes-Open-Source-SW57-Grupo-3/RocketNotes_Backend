@@ -1,4 +1,4 @@
 package com.fivestars.rocketnotes.Maintenance.domain.model.queries;
 
-public record GetAllFacilitiesQuery(long id) {
+public record GetAllFacilitiesQuery() {
 }

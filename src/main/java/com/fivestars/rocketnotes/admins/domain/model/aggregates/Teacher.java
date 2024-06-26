@@ -34,4 +34,12 @@ public class Teacher {
         this.phone = phone;
         this.email = email;
     }
+    public void updateDetails(String firstName, String paternalLastName, String maternalLastName, String dni, String phone, String email) {
+        this.firstName = firstName;
+        this.paternalLastName = paternalLastName;
+        this.maternalLastName = maternalLastName;
+        this.dni = dni;
+        this.phone = phone;
+        this.email = email;
+    }
 }

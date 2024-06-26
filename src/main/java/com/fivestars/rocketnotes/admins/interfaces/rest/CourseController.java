@@ -3,13 +3,15 @@ package com.fivestars.rocketnotes.admins.interfaces.rest;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateCourseCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteCourseCommand;
 import com.fivestars.rocketnotes.admins.domain.services.ClassroomCommandService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/courses")
+@RequestMapping("/api/v1/courses")
+@Tag(name = "Courses", description = "Courses API")
 @RequiredArgsConstructor
 public class CourseController {
 

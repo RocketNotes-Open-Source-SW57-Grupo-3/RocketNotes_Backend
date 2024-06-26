@@ -10,7 +10,7 @@ public class FacilitieResourceFromEntityAssembler {
                 facilitie.getName(),
                 facilitie.getBudget(),
                 facilitie.getCreation(),
-                facilitie.getCreation(),
+                facilitie.getPeriod(),
                 facilitie.getStatus()
         );
     }

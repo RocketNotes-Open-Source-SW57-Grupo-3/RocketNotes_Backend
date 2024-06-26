@@ -3,13 +3,15 @@ package com.fivestars.rocketnotes.admins.interfaces.rest;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Student;
 import com.fivestars.rocketnotes.admins.domain.model.commands.CreateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteStudentCommand;
+import com.fivestars.rocketnotes.admins.domain.model.commands.UpdateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.services.StudentCommandService;
 import com.fivestars.rocketnotes.admins.domain.services.StudentQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateStudentResource;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.StudentResource;
+import com.fivestars.rocketnotes.admins.interfaces.rest.resources.UpdateStudentResource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,8 +61,23 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long studentId) {
-        studentCommandService.handle(new DeleteStudentCommand(studentId));
+    public ResponseEntity<?> deleteStudentById(@PathVariable Long id){
+        var deleteStudentCommand = new DeleteStudentCommand(id);
+        studentCommandService.handle(deleteStudentCommand);
+        return ResponseEntity.ok("Student deleted successfully");
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateStudent(@PathVariable Long id, @RequestBody UpdateStudentResource resource) {
+        UpdateStudentCommand command = new UpdateStudentCommand(
+                id,
+                resource.getFirstName(),
+                resource.getPaternalLastName(),
+                resource.getMaternalLastName(),
+                resource.getDni()
+        );
+        studentCommandService.handle(command);
         return ResponseEntity.ok().build();
     }
 

@@ -30,4 +30,10 @@ public class Student {
         this.maternalLastName = maternalLastName;
         this.dni = dni;
     }
+    public void updateDetails(String firstName, String paternalLastName, String maternalLastName, String dni) {
+        this.firstName = firstName;
+        this.paternalLastName = paternalLastName;
+        this.maternalLastName = maternalLastName;
+        this.dni = dni;
+    }
 }
