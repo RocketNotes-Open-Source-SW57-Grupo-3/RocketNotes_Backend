@@ -14,6 +14,7 @@ import java.util.Set;
 
 @Entity
 public class User extends AuditableAbstractAggregateRoot<User> {
+
     @Getter
     @NotBlank
     @Size(max = 50)
@@ -26,13 +27,14 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     private String password;
 
     @Getter
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User() { this.roles = new HashSet<>(); }
+    public User() {
+        this.roles = new HashSet<>();
+    }
 
     public User(String username, String password) {
         this();
@@ -51,8 +53,8 @@ public class User extends AuditableAbstractAggregateRoot<User> {
     }
 
     public User addRoles(List<Role> roles) {
-        var validatedRoleSet = Role.validateRoleSet(roles);
-        this.roles.addAll(validatedRoleSet);
+        var validatedRoles = Role.validateRoleSet(roles);
+        this.roles.addAll(validatedRoles);
         return this;
     }
 }

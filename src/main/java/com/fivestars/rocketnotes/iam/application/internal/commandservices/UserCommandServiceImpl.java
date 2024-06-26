@@ -6,6 +6,7 @@ import com.fivestars.rocketnotes.iam.application.internal.outboundservices.token
 import com.fivestars.rocketnotes.iam.domain.model.aggregates.User;
 import com.fivestars.rocketnotes.iam.domain.model.commands.SignInCommand;
 import com.fivestars.rocketnotes.iam.domain.model.commands.SignUpCommand;
+import com.fivestars.rocketnotes.iam.domain.model.valueobjects.Roles;
 import com.fivestars.rocketnotes.iam.domain.services.UserCommandService;
 import com.fivestars.rocketnotes.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import com.fivestars.rocketnotes.iam.infrastructure.persistence.jpa.repositories.UserRepository;
@@ -32,9 +33,12 @@ public class UserCommandServiceImpl implements UserCommandService {
     public Optional<User> handle(SignUpCommand command) {
         if (userRepository.existsByUsername(command.username()))
             throw new RuntimeException("Username already exists");
-
-        var roles = command.roles().stream().map(role -> roleRepository.findByName(role.getName())
-                .orElseThrow(() -> new RuntimeException("Role not found"))).toList();
+        var roles = command.roles();
+        if (roles.isEmpty()) {
+            var role = roleRepository.findByName(Roles.ROLE_ADMIN);
+            roles.add(role.get());
+        }
+        roles = command.roles().stream().map(role -> roleRepository.findByName(role.getName()).orElseThrow(() -> new RuntimeException("Role not found"))).toList();
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
         userRepository.save(user);
         return userRepository.findByUsername(command.username());
@@ -42,11 +46,12 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     public Optional<ImmutablePair<User, String>> handle(SignInCommand command) {
-        var user = userRepository.findByUsername(command.username())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        if (!hashingService.matches(command.password(), user.getPassword()))
+        var user = userRepository.findByUsername(command.username());
+        if (user.isEmpty()) throw new RuntimeException("User not found");
+        if (!hashingService.matches(command.password(), user.get().getPassword()))
             throw new RuntimeException("Invalid password");
-        var token = tokenService.generateToken(user.getUsername());
-        return Optional.of(new ImmutablePair<>(user, token));
+        var currentUser = user.get();
+        var token = tokenService.generateToken(currentUser.getUsername());
+        return Optional.of(ImmutablePair.of(currentUser, token));
     }
 }

@@ -7,19 +7,19 @@ import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 @Entity
 public class Role {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, unique = true, length = 20)
+    @Column(unique = true, length = 20)
     private Roles name;
 
-    public Role() {}
+    public Role() {
+    }
 
     public Role(Roles name) {
         this.name = name;
@@ -30,7 +30,7 @@ public class Role {
     }
 
     public static Role getDefaultRole() {
-        return new Role(Roles.ROLE_TEACHER);
+        return new Role(Roles.ROLE_ADMIN);
     }
 
     public static Role toRoleFromName(String name) {
@@ -38,9 +38,8 @@ public class Role {
     }
 
     public static List<Role> validateRoleSet(List<Role> roles) {
-        if (roles == null || roles.isEmpty()) {
-            return List.of(getDefaultRole());
-        }
+        if (roles == null || roles.isEmpty()) return List.of(getDefaultRole());
         return roles;
     }
 }
+

@@ -2,6 +2,8 @@ package com.fivestars.rocketnotes.iam.application.internal.outboundservices.toke
 
 public interface TokenService {
     String generateToken(String username);
-    String getUsernameFromToken(String token);
+
     boolean validateToken(String token);
+
+    String getUsernameFromToken(String token);
 }

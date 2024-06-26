@@ -8,6 +8,7 @@ import com.fivestars.rocketnotes.iam.interfaces.rest.transform.AuthenticatedUser
 import com.fivestars.rocketnotes.iam.interfaces.rest.transform.SignInCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
 import com.fivestars.rocketnotes.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ public class AuthenticationController {
         this.userCommandService = userCommandService;
     }
 
+    @SecurityRequirements
     @PostMapping("/sign-in")
     public ResponseEntity<AuthenticatedUserResource> signIn(@RequestBody SignInResource signInResource) {
         var signInCommand = SignInCommandFromResourceAssembler.toCommandFromResource(signInResource);
@@ -36,6 +38,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticatedUserResource);
     }
 
+    @SecurityRequirements
     @PostMapping("/sign-up")
     public ResponseEntity<UserResource> signUp(@RequestBody SignUpResource signUpResource) {
         var signUpCommand = SignUpCommandFromResourceAssembler.toCommandFromResource(signUpResource);
