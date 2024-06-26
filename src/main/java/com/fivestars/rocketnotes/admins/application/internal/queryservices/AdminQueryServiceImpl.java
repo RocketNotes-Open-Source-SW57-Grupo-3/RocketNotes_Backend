@@ -3,8 +3,8 @@ package com.fivestars.rocketnotes.admins.application.internal.queryservices;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Admin;
 import com.fivestars.rocketnotes.admins.domain.services.AdminQueryService;
 import com.fivestars.rocketnotes.admins.infrastructure.persistence.jpa.repositories.AdminRepository;
-import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
