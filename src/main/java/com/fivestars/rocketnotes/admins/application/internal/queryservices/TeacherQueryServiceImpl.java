@@ -3,8 +3,8 @@ package com.fivestars.rocketnotes.admins.application.internal.queryservices;
 import com.fivestars.rocketnotes.admins.domain.model.aggregates.Teacher;
 import com.fivestars.rocketnotes.admins.domain.services.TeacherQueryService;
 import com.fivestars.rocketnotes.admins.infrastructure.persistence.jpa.repositories.TeacherRepository;
-import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

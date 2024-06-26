@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -15,18 +14,23 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long roomId;
     private String name;
     private LocalDate start;
     private LocalDate end;
     private String days;
 
+
     @ManyToOne
     private Teacher teacher;
 
     @Lob
-    private byte[] image;
+    private String image;
 
-    public Course(String name, LocalDate start, LocalDate end, String days, Teacher teacher, byte[] image) {
+
+
+    public Course(Long roomId, String name, LocalDate start, LocalDate end, String days, Teacher teacher, String image) {
+        this.roomId= roomId;
         this.name = name;
         this.start = start;
         this.end = end;

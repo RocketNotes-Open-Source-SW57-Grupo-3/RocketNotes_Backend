@@ -50,7 +50,7 @@ public class ClassroomCommandServiceImpl implements ClassroomCommandService {
     public Long handle(CreateCourseCommand command) {
         Classroom room = roomRepository.findById(command.roomId()).orElseThrow(() -> new RuntimeException("Room not found"));
         Teacher teacher = teacherRepository.findById(command.teacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
-        Course course = new Course(command.name(), command.start(), command.end(), command.days(), teacher, command.image());
+        Course course = new Course(command.roomId(),command.name(), command.start(), command.end(), command.days(), teacher, command.image());
         room.addCourse(course);
         roomRepository.save(room);
         courseRepository.save(course);
