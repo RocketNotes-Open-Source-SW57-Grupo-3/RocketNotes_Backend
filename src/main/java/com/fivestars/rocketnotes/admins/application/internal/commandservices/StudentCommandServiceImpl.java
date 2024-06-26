@@ -6,8 +6,8 @@ import com.fivestars.rocketnotes.admins.domain.model.commands.DeleteStudentComma
 import com.fivestars.rocketnotes.admins.domain.model.commands.UpdateStudentCommand;
 import com.fivestars.rocketnotes.admins.domain.services.StudentCommandService;
 import com.fivestars.rocketnotes.admins.infrastructure.persistence.jpa.repositories.StudentRepository;
-import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

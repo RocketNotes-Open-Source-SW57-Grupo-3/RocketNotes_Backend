@@ -7,9 +7,9 @@ import com.fivestars.rocketnotes.admins.domain.services.AdminCommandService;
 import com.fivestars.rocketnotes.admins.domain.services.AdminQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.AdminResource;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateAdminResource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;

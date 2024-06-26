@@ -9,9 +9,9 @@ import com.fivestars.rocketnotes.admins.domain.services.TeacherQueryService;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.CreateTeacherResource;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.TeacherResource;
 import com.fivestars.rocketnotes.admins.interfaces.rest.resources.UpdateTeacherResource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
