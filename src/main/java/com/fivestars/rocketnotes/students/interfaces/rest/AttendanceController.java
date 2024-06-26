@@ -47,7 +47,7 @@ public class AttendanceController {
 
 
     @GetMapping("/{courseId}/{studentId}")
-    public ResponseEntity<List<Attendance>> getAllAttendanceForStudent(@RequestParam StudentId studentId, CourseId courseId) {
-        return ResponseEntity.ok(queryService.handle(new GetAllAttendanceForStudentQuery(studentId,courseId)));
+    public ResponseEntity<List<Attendance>> getAllAttendanceForStudent(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) {
+        return ResponseEntity.ok(queryService.handle(new GetAllAttendanceForStudentQuery(new StudentId(studentId), new CourseId(courseId))));
     }
 }
